@@ -73,6 +73,7 @@ class Table{
         {
             const cardContainer = document.createElement("div");
             cardContainer.id = `card-${i}`;
+            cardContainer.classList.add("card")
 
             const image = document.createElement("img");
             image.addEventListener("click", function(){this.tryMatch(i)}.bind(this));
@@ -117,7 +118,7 @@ class Table{
                     this.flipCard(first, this.deck.getCards().indexOf(first));
                     this.flipCard(second, this.deck.getCards().indexOf(second));
                     this.onExamination = [];
-                }, 2000);
+                }, 1000);
             }
             else
             {
@@ -131,7 +132,7 @@ class Table{
 class Deck{
     constructor(difficulty = "easy")
     {
-        let difficulties = {"easy": 6, "normal": 10, "hard": 20};
+        let difficulties = {"easy": 6, "medium": 10, "hard": 20};
         if(!difficulties[difficulty])
             throw new Error(`Difficulty ${difficulty} not recognized`);
         
@@ -271,5 +272,5 @@ class Card {
 }
 
 let table = new Table();
-table.changeDifficulty();
+table.changeDifficulty("medium");
 table.drawTable();
