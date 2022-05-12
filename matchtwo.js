@@ -139,6 +139,22 @@ class Deck{
         this.cards = [];
     }
 
+    drawCards()
+    {
+        let images = helper.imagesToMatch();
+        let excludedImages = [];
+        for(let i = 0; i < this.cardsToDraw; i += 2)
+        {
+            let image = this.randomImage(excludedImages);
+            excludedImages.push(image);
+            let first = new Card(images[image].name, images[image].url)
+            let second = new Card(images[image].name, images[image].url)
+            this.addCardPair(first, second)
+        }
+
+        this.cards = this.shuffleCards(this.cards);
+    }
+
     addCardPair(first, second)
     {
         if(!first instanceof Card)
@@ -153,18 +169,22 @@ class Deck{
         this.cards.push(second);
     }
 
-    drawCards()
+    shuffleCards(array)
     {
-        let images = helper.imagesToMatch();
-        let excludedImages = [];
-        for(let i = 0; i < this.cardsToDraw; i += 2)
-        {
-            let image = this.randomImage(excludedImages);
-            excludedImages.push(image);
-            let first = new Card(images[image].name, images[image].url)
-            let second = new Card(images[image].name, images[image].url)
-            this.addCardPair(first, second)
+        //uh... lifted straight out of stack overflow. I need to randomize the order of things!
+        //https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+        let currentIndex = array.length,  randomIndex;
+
+        while (currentIndex != 0) {
+
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
         }
+
+        return array;   
     }
 
     randomImage(exclude)
