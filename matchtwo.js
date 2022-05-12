@@ -74,7 +74,31 @@ class Table{
         {
             const cardContainer = document.createElement("div");
             cardContainer.id = `card-${i}`;
-            cardContainer.classList.add("card")
+            const length = cards.length;
+            if(length === 6)
+                cardContainer.classList.add("col-4")
+            else if(length === 10)
+            {
+                if(i === 0)
+                {
+                    let pad = document.createElement("div");
+                    pad.classList.add("col-1")
+                    playArea.appendChild(pad);
+                }
+                if(i === 5)
+                {
+                    for(let j = 0; j < 2; j++)
+                    {
+                        let pad = document.createElement("div");
+                        pad.classList.add("col-1")
+                        playArea.appendChild(pad);
+                    }
+                }
+                cardContainer.classList.add("col-2");
+                cardContainer.classList.add("mb-4");
+            }
+            else if(length === 20)
+                cardContainer.classList.add("col-2")
 
             const image = document.createElement("img");
             image.addEventListener("click", function(){this.tryMatch(i)}.bind(this));
