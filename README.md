@@ -1,8 +1,8 @@
-#What is this
+# What is this
 this is a memory game made using HTML, CSS and JavaScript
 
-#About
+# About
 The images are made in paint.
 
-#How to run
+# How to run
 Download the files and open match two.html with a browser
