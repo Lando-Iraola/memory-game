@@ -68,6 +68,7 @@ class Table{
     drawTable()
     {
         const playArea = document.getElementById("play-area");
+        playArea.innerHTML = "";
         const cards = this.deck.getCards();
         for(let i = 0; i < cards.length; i++)
         {
@@ -272,5 +273,3 @@ class Card {
 }
 
 let table = new Table();
-table.changeDifficulty("medium");
-table.drawTable();
