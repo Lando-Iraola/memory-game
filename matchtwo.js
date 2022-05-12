@@ -96,6 +96,9 @@ class Table{
         const card = this.deck.getCards()[index];
         if(card.isMatchFound())
             return;
+
+        if(this.onExamination.indexOf(card) > -1)
+            return;
         
         if(this.onExamination.length == 2)
             return;
@@ -108,7 +111,7 @@ class Table{
             const first = this.onExamination[0];
             const second = this.onExamination[1];
 
-            if(!first.areMatch(second))
+            if(!first.determineMatch(second))
             {    
                 setTimeout(() => {
                     this.flipCard(first, this.deck.getCards().indexOf(first));
@@ -117,7 +120,10 @@ class Table{
                 }, 2000);
             }
             else
+            {
+                second.determineMatch(first);
                 this.onExamination = [];
+            }
         }
     }
 }
