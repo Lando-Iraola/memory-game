@@ -23,11 +23,11 @@ const helper =
             },
             {
                 name: "light_blue",
-                url: "./images/'light blue'.png"
+                url: "./images/light blue.png"
             },
             {
                 name: "light_green",
-                url: "./images/'light green'.png",
+                url: "./images/light green.png",
             },
             {
 
@@ -70,21 +70,25 @@ class Table{
         const cards = this.deck.getCards();
         for(let i = 0; i < cards.length; i++)
         {
-            let cardContainer = `
-            <div class="card" id="card-${i}">
-                <img src="${cards[i].getImage()}"/>
-            </div>`;
+            const cardContainer = document.createElement("div");
+            cardContainer.id = `card-${i}`;
 
-            playArea.innerHTML += cardContainer;
+            const image = document.createElement("img");
+            image.addEventListener("click", function(){this.flipCard(i)}.bind(this));
+            image.src = cards[i].getImage();
+            cardContainer.appendChild(image);
+            playArea.appendChild(cardContainer);
         }
     }
 
     flipCard(index)
     {
+        console.log("something?", index)
         this.deck.getCards()[index].invertFlip();
         let image = this.deck.getCards()[index].getImage();
 
-        document.getElementById(`card-${i}`).src = image;
+        const cardContainer = document.getElementById(`card-${index}`);
+        cardContainer.querySelector("img").src = image;
     }
 }
 
@@ -209,3 +213,7 @@ class Card {
         this.matchFound = true;
     }
 }
+
+let table = new Table();
+table.changeDifficulty();
+table.drawTable();
