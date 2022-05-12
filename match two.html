@@ -8,12 +8,12 @@
     <body>
         <div id="settings">
             <p>Select difficulty</p>
-            <button onclick="table.changeDifficulty('easy'); table.drawTable();">Easy</button>
-            <button onclick="table.changeDifficulty('medium'); table.drawTable();">Medium</button>
-            <button onclick="table.changeDifficulty('hard'); table.drawTable();">Hard</button>
+            <button onclick="table.changeDifficulty('easy'); table.drawTable(); table.stats()">Easy</button>
+            <button onclick="table.changeDifficulty('medium'); table.drawTable(); table.stats()">Medium</button>
+            <button onclick="table.changeDifficulty('hard'); table.drawTable(); table.stats()">Hard</button>
         </div>
         <div id="stats">
-        
+            <p id="matches">Game not started</p>
         </div>
         <div id="play-area"></div>
     </body>

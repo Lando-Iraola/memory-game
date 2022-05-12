@@ -127,6 +127,14 @@ class Table{
                 this.onExamination = [];
             }
         }
+
+        this.stats();
+    }
+
+    stats()
+    {
+        let matches = this.deck.totalMatches();
+        document.getElementById("matches").innerHTML = `${matches.current} / ${matches.total} Pairs found`;
     }
 }
 
@@ -201,6 +209,22 @@ class Deck{
     getCards()
     {
         return this.cards;
+    }
+
+    totalMatches()
+    {
+        let dividedByPair = 2;
+        let total = this.cards.length / dividedByPair;
+        let current = 0;
+        for(let i = 0; i < this.cards.length; i++)
+        {
+            if(this.cards[i].isMatchFound())
+                current += 1;
+        }
+
+        current = current / dividedByPair;
+
+        return {total, current};
     }
 }
 
