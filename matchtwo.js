@@ -55,7 +55,8 @@ const helper =
 class Table{
     constructor()
     {
-        this.deck
+        this.deck;
+        this.onExamination = [];
     }
 
     changeDifficulty(difficulty = "easy")
@@ -74,21 +75,50 @@ class Table{
             cardContainer.id = `card-${i}`;
 
             const image = document.createElement("img");
-            image.addEventListener("click", function(){this.flipCard(i)}.bind(this));
+            image.addEventListener("click", function(){this.tryMatch(i)}.bind(this));
             image.src = cards[i].getImage();
             cardContainer.appendChild(image);
             playArea.appendChild(cardContainer);
         }
     }
 
-    flipCard(index)
+    flipCard(card, index)
     {
-        console.log("something?", index)
-        this.deck.getCards()[index].invertFlip();
-        let image = this.deck.getCards()[index].getImage();
+        card.invertFlip();
+        let image = card.getImage();
 
         const cardContainer = document.getElementById(`card-${index}`);
         cardContainer.querySelector("img").src = image;
+    }
+
+    tryMatch(index)
+    {
+        const card = this.deck.getCards()[index];
+        if(card.isMatchFound())
+            return;
+        
+        if(this.onExamination.length == 2)
+            return;
+        
+        this.onExamination.push(card);
+        this.flipCard(card, index);
+
+        if(this.onExamination.length == 2)
+        {
+            const first = this.onExamination[0];
+            const second = this.onExamination[1];
+
+            if(!first.areMatch(second))
+            {    
+                setTimeout(() => {
+                    this.flipCard(first, this.deck.getCards().indexOf(first));
+                    this.flipCard(second, this.deck.getCards().indexOf(second));
+                    this.onExamination = [];
+                }, 2000);
+            }
+            else
+                this.onExamination = [];
+        }
     }
 }
 
@@ -195,7 +225,7 @@ class Card {
     {
         let areMatch = this.areMatch(card);
         if(areMatch)
-            this.matchFound();
+            this.matchFound = true;
 
         return areMatch;
     }
@@ -208,9 +238,9 @@ class Card {
         return this.match === card;
     }
 
-    matchFound()
+    isMatchFound()
     {
-        this.matchFound = true;
+        return this.matchFound;
     }
 }
 
