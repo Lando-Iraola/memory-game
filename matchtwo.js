@@ -165,6 +165,15 @@ class Deck{
         this.cards = this.shuffleCards(this.cards);
     }
 
+    randomImage(exclude)
+    {
+        let number = Math.floor(Math.random() * 10);
+        if(exclude.includes(number))
+            return this.randomImage(exclude);
+        
+        return number;
+    }
+
     addCardPair(first, second)
     {
         if(!first instanceof Card)
@@ -195,15 +204,6 @@ class Deck{
         }
 
         return array;   
-    }
-
-    randomImage(exclude)
-    {
-        let number = Math.floor(Math.random() * 10);
-        if(exclude.includes(number))
-            return this.randomImage(exclude);
-        
-        return number;
     }
 
     getCards()
