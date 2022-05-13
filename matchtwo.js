@@ -159,8 +159,8 @@ class Deck{
         {
             let image = this.randomImage(excludedImages);
             excludedImages.push(image);
-            let first = new Card(images[image].name, images[image].url)
-            let second = new Card(images[image].name, images[image].url)
+            let first = new Card(images[image].url)
+            let second = new Card(images[image].url)
             this.addCardPair(first, second)
         }
 
@@ -231,19 +231,13 @@ class Deck{
 }
 
 class Card {
-    constructor(name = "empty", image = "")
+    constructor(image = "")
     {
-        this.name = name;
         this.image = image;
         this.backImage = "./images/back.png"
         this.isFliped = true;
         this.matchFound = false;
         this.match;
-    }
-
-    getName()
-    {
-        return this.name;
     }
 
     getImage()
