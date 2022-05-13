@@ -275,19 +275,11 @@ class Card {
 
     determineMatch(card)
     {
-        let areMatch = this.areMatch(card);
+        let areMatch = this.match === card;
         if(areMatch)
             this.matchFound = true;
 
         return areMatch;
-    }
-
-    areMatch(card)
-    {
-        if(!card instanceof Card)
-            throw new Error("Object supplied is not of type Card")
-        
-        return this.match === card;
     }
 
     isMatchFound()
