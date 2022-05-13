@@ -80,6 +80,7 @@ class Table{
             const image = document.createElement("img");
             image.addEventListener("click", function(){this.tryMatch(i)}.bind(this));
             image.src = cards[i].getImage();
+            image.draggable = false;
             cardContainer.appendChild(image);
             playArea.appendChild(cardContainer);
         }
