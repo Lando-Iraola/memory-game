@@ -61,6 +61,7 @@ class Table{
 
     changeDifficulty(difficulty = "easy")
     {
+        this.onExamination = [];
         this.deck = new Deck(difficulty);
         this.deck.drawCards();
     }
