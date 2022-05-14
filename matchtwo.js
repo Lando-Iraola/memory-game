@@ -52,7 +52,8 @@ const helper =
     }
 }
 
-class Table{
+class Table
+{
     constructor()
     {
         this.deck;
@@ -140,7 +141,8 @@ class Table{
     }
 }
 
-class Deck{
+class Deck
+{
     constructor(difficulty = "easy")
     {
         let difficulties = {"easy": 6, "medium": 10, "hard": 20};
@@ -157,7 +159,7 @@ class Deck{
         let excludedImages = [];
         for(let i = 0; i < this.cardsToDraw; i += 2)
         {
-            let image = this.randomImage(excludedImages);
+            let image = this.randomImage(excludedImages, images.length);
             excludedImages.push(image);
             let first = new Card(images[image].url)
             let second = new Card(images[image].url)
@@ -167,11 +169,11 @@ class Deck{
         this.cards = this.shuffleCards(this.cards);
     }
 
-    randomImage(exclude)
+    randomImage(exclude, limitedByArrayLength)
     {
-        let number = Math.floor(Math.random() * 10);
+        let number = Math.floor(Math.random() * limitedByArrayLength);
         if(exclude.includes(number))
-            return this.randomImage(exclude);
+            return this.randomImage(exclude, limitedByArrayLength);
         
         return number;
     }
@@ -196,13 +198,13 @@ class Deck{
         //https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
         let currentIndex = array.length,  randomIndex;
 
-        while (currentIndex != 0) {
+        while (currentIndex != 0) 
+        {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
 
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-
-        [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex], array[currentIndex]];
+            [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
         }
 
         return array;   
@@ -230,7 +232,8 @@ class Deck{
     }
 }
 
-class Card {
+class Card 
+{
     constructor(image = "")
     {
         this.image = image;
