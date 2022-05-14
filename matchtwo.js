@@ -58,12 +58,23 @@ class Table
     {
         this.deck;
         this.onExamination = [];
+        this.msToUncoverCardFor = 100;
     }
 
     changeDifficulty(difficulty = "easy")
     {
+        let difficulties = 
+        {
+            "easy": {quantityOfPairs: 3, msToUncoverCardFor: 300}, 
+            "medium": {quantityOfPairs: 5, msToUncoverCardFor: 180}, 
+            "hard": {quantityOfPairs: 10, msToUncoverCardFor: 60}
+        };
+        if(!difficulties[difficulty])
+            throw new Error(`Difficulty ${difficulty} not recognized`);
+
         this.onExamination = [];
-        this.deck = new Deck(difficulty);
+        this.deck = new Deck(difficulties[difficulty].quantityOfPairs);
+        this.msToUncoverCardFor = difficulties[difficulty].msToUncoverCardFor;
         this.deck.drawCards();
     }
 
@@ -122,7 +133,7 @@ class Table
                     this.flipCard(first, this.deck.getCards().indexOf(first));
                     this.flipCard(second, this.deck.getCards().indexOf(second));
                     this.onExamination = [];
-                }, 1000);
+                }, this.msToUncoverCardFor);
             }
             else
             {
@@ -143,13 +154,9 @@ class Table
 
 class Deck
 {
-    constructor(difficulty = "easy")
+    constructor(cardPairsToDraw = 6)
     {
-        let difficulties = {"easy": 6, "medium": 10, "hard": 20};
-        if(!difficulties[difficulty])
-            throw new Error(`Difficulty ${difficulty} not recognized`);
-        
-        this.cardsToDraw = difficulties[difficulty];
+        this.cardPairsToDraw = cardPairsToDraw;
         this.cards = [];
     }
 
@@ -157,7 +164,7 @@ class Deck
     {
         let images = helper.imagesToMatch();
         let excludedImages = [];
-        for(let i = 0; i < this.cardsToDraw; i += 2)
+        for(let i = 0; i < this.cardPairsToDraw; i += 1)
         {
             let image = this.randomImage(excludedImages, images.length);
             excludedImages.push(image);
