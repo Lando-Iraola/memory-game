@@ -148,7 +148,7 @@ class Table
     stats()
     {
         let matches = this.deck.totalMatches();
-        document.getElementById("matches").innerHTML = `${matches.current} / ${matches.total} Pairs found`;
+        document.getElementById("matches").innerText = `${matches.current} / ${matches.total} Pairs found`;
     }
 }
 
@@ -224,8 +224,6 @@ class Deck
 
     totalMatches()
     {
-        let dividedByPair = 2;
-        let total = this.cards.length / dividedByPair;
         let current = 0;
         for(let i = 0; i < this.cards.length; i++)
         {
@@ -233,7 +231,9 @@ class Deck
                 current += 1;
         }
 
-        current = current / dividedByPair;
+        const doNotConsiderPair = 2;
+        current /= doNotConsiderPair;
+        let total = this.cardPairsToDraw;
 
         return {total, current};
     }
