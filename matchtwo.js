@@ -76,6 +76,9 @@ class Table
         this.deck = new Deck(difficulties[difficulty].quantityOfPairs);
         this.msToUncoverCardFor = difficulties[difficulty].msToUncoverCardFor;
         this.deck.drawCards();
+        
+        let start = new Date();
+        this.timer(start);
     }
 
     drawTable()
@@ -149,6 +152,23 @@ class Table
     {
         let matches = this.deck.totalMatches();
         document.getElementById("matches").innerText = `${matches.current} / ${matches.total} Pairs found`;
+    }
+
+    timer(start = null)
+    {
+        setTimeout(() => {
+            const labelTime = document.getElementById("time");
+            const now = new Date();
+            let diff = now - start;
+            console.log(start);
+            console.log(diff);
+            labelTime.innerText = `Run started ${Math.floor(diff / 1000)} seconds ago`
+            let matches = this.deck.totalMatches();
+            if(matches.current === matches.total)
+                labelTime.innerText = `Run finished in ${Math.floor(diff / 1000)} seconds`
+            else
+                this.timer(start);
+        }, 10);
     }
 }
 
@@ -295,3 +315,5 @@ class Card
 }
 
 let table = new Table();
+
+
