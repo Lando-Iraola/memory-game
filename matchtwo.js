@@ -159,16 +159,42 @@ class Table
         setTimeout(() => {
             const labelTime = document.getElementById("time");
             const now = new Date();
+            
             let diff = now - start;
-            console.log(start);
-            console.log(diff);
-            labelTime.innerText = `Run started ${Math.floor(diff / 1000)} seconds ago`
+            let timeString = "";
+            if(diff < 60_000)
+                timeString = `${Math.floor(diff / 1000)} seconds`;
+            else if(diff < 3_600_000)
+            {
+                let minutes = Math.floor(diff / 60_000);
+                let seconds = Math.floor((diff - (minutes * 60_000)) / 1000);
+                if(seconds < 10)
+                    seconds = `0${seconds}`;
+                timeString = `${minutes}:${seconds} minutes`;
+            }
+            else
+            {
+                let hours = Math.floor(diff / 3_600_000);
+                let minutes = Math.floor((diff - (hours * 3_600_000) ) / 60_000);
+                let seconds = Math.floor(( (diff - (hours * 3_600_000) ) - (minutes * 60_000) ) / 1000);
+                
+                if(seconds < 10)
+                    seconds = `0${seconds}`;
+                
+                if(minutes < 10)
+                    minutes = `0${minutes}`;
+                if(hours < 10)
+                    hours = `0${hours}`;
+                console.log(seconds)
+                timeString = `${hours}:${minutes}:${seconds} hours`;
+            }
+            labelTime.innerText = `Run started ${timeString} ago`
             let matches = this.deck.totalMatches();
             if(matches.current === matches.total)
-                labelTime.innerText = `Run finished in ${Math.floor(diff / 1000)} seconds`
+                labelTime.innerText = `Run finished in ${timeString}`;
             else
                 this.timer(start);
-        }, 10);
+        }, 50);
     }
 }
 
