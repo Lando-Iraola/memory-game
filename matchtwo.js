@@ -86,33 +86,28 @@ class Table
         const playArea = document.getElementById("play-area");
         playArea.innerHTML = "";
         const cards = this.deck.getCards();
-        for(let i = 0; i < cards.length; i++)
+        for(let card of cards)
         {
             const cardContainer = document.createElement("div");
-            cardContainer.id = `card-${i}`;
             cardContainer.classList.add("card")
 
             const image = document.createElement("img");
-            image.addEventListener("click", function(){this.tryMatch(i)}.bind(this));
-            image.src = cards[i].getImage();
+            image.addEventListener("click", () => {this.tryMatch(card, image)});
+            image.src = card.getImage();
             image.draggable = false;
             cardContainer.appendChild(image);
             playArea.appendChild(cardContainer);
         }
     }
 
-    flipCard(card, index)
+    flipCard(card, img)
     {
         card.invertFlip();
-        let image = card.getImage();
-
-        const cardContainer = document.getElementById(`card-${index}`);
-        cardContainer.querySelector("img").src = image;
+        img.src = card.getImage();
     }
 
-    tryMatch(index)
+    tryMatch(card = null, img = null)
     {
-        const card = this.deck.getCards()[index];
         if(card.isMatchFound())
             return;
 
@@ -122,25 +117,25 @@ class Table
         if(this.onExamination.length == 2)
             return;
         
-        this.onExamination.push(card);
-        this.flipCard(card, index);
+        this.onExamination.push({card, img});
+        this.flipCard(card, img);
 
         if(this.onExamination.length == 2)
         {
             const first = this.onExamination[0];
             const second = this.onExamination[1];
 
-            if(!first.determineMatch(second))
+            if(!first.card.determineMatch(second.card))
             {    
                 setTimeout(() => {
-                    this.flipCard(first, this.deck.getCards().indexOf(first));
-                    this.flipCard(second, this.deck.getCards().indexOf(second));
+                    this.flipCard(first.card, first.img);
+                    this.flipCard(second.card, second.img);
                     this.onExamination = [];
                 }, this.msToUncoverCardFor);
             }
             else
             {
-                second.determineMatch(first);
+                second.card.determineMatch(first.card);
                 this.onExamination = [];
             }
         }
@@ -340,5 +335,3 @@ class Card
 }
 
 let table = new Table();
-
-
