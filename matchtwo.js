@@ -92,7 +92,7 @@ class Table
             cardContainer.classList.add("card")
 
             const image = document.createElement("img");
-            image.addEventListener("click", () => {this.tryMatch(card, image)});
+            image.addEventListener("click", () => {this.flipCard(card, image); this.tryMatch(card, image)});
             image.src = card.getImage();
             image.draggable = false;
             cardContainer.appendChild(image);
@@ -102,23 +102,15 @@ class Table
 
     flipCard(card, img)
     {
+        if(card.isMatchFound())
+            return;
         card.invertFlip();
         img.src = card.getImage();
     }
 
-    tryMatch(card = null, img = null)
-    {
-        if(card.isMatchFound())
-            return;
-
-        if(this.onExamination.indexOf(card) > -1)
-            return;
-        
-        if(this.onExamination.length == 2)
-            return;
-        
+    tryMatch(card, img)
+    {   
         this.onExamination.push({card, img});
-        this.flipCard(card, img);
 
         if(this.onExamination.length == 2)
         {
@@ -265,9 +257,9 @@ class Deck
     totalMatches()
     {
         let current = 0;
-        for(let i = 0; i < this.cards.length; i++)
+        for(let card of this.cards)
         {
-            if(this.cards[i].isMatchFound())
+            if(card.isMatchFound())
                 current += 1;
         }
 
