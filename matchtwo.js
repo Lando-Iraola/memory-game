@@ -92,7 +92,7 @@ class Table
             cardContainer.classList.add("card")
 
             const image = document.createElement("img");
-            image.addEventListener("click", () => {this.flipCard(card, image); this.tryMatch(card, image)});
+            image.addEventListener("click", () => {if(card.isMatchFound()) return; this.flipCard(card, image); this.tryMatch(card, image)});
             image.src = card.getImage();
             image.draggable = false;
             cardContainer.appendChild(image);
@@ -102,8 +102,6 @@ class Table
 
     flipCard(card, img)
     {
-        if(card.isMatchFound())
-            return;
         card.invertFlip();
         img.src = card.getImage();
     }
